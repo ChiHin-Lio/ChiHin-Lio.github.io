@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>澳泊 Parking Go — 澳門停車場即時資訊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terracotta: #b45f4a;
+      --terracotta-deep: #8a3c2c;
+      --terracotta-light: #d4897a;
+      --cream: #faf6f0;
+      --cream-dark: #f5ede4;
+      --text: #2c2c2c;
+      --text-light: #6b6b6b;
+      --white: #ffffff;
+      --font-heading: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(180,95,74,0.06) 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(180,95,74,0.04) 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      max-width: 1100px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      flex: 1;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-text .badge {
+      display: inline-block;
+      background: var(--terracotta);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero-text h1 {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      line-height: 1.15;
+      color: var(--terracotta);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .hero-text .subtitle .en {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    .app-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--text);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.5s forwards;
+    }
+
+    .app-store-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .app-store-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    .hero-mockup {
+      flex: 0 0 300px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+    }
+
+    .phone {
+      width: 280px;
+      height: 560px;
+      background: var(--text);
+      border-radius: 36px;
+      padding: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: var(--text);
+      border-radius: 0 0 16px 16px;
+      z-index: 2;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #f5ede4 0%, #e8ddd0 50%, #d4c4b2 100%);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mock-map {
+      padding: 1rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mock-map .status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: var(--text-light);
+      padding-bottom: 0.5rem;
+    }
+
+    .mock-map .map-area {
+      flex: 1;
+      background: linear-gradient(135deg, #d4c9b8 0%, #c4b8a4 50%, #b8aa96 100%);
+      border-radius: 12px;
+      margin: 0.5rem 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mock-map .map-pin {
+      width: 12px;
+      height: 12px;
+      background: var(--terracotta);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(180,95,74,0.2);
+      position: absolute;
+    }
+
+    .mock-map .map-pin:nth-child(1) { top: 25%; left: 30%; }
+    .mock-map .map-pin:nth-child(2) { top: 45%; left: 60%; }
+    .mock-map .map-pin:nth-child(3) { top: 65%; left: 40%; }
+    .mock-map .map-pin:nth-child(4) { top: 35%; left: 75%; }
+
+    .mock-map .bottom-card {
+      background: white;
+      border-radius: 10px;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mock-map .bottom-card .name {
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    .mock-map .bottom-card .status {
+      font-size: 0.6rem;
+      color: #2d8a4e;
+      font-weight: 500;
+    }
+
+    .features {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .features-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: var(--terracotta);
+      margin-bottom: 0.75rem;
+    }
+
+    .features-header p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+    }
+
+    .feature-card .icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: var(--terracotta);
+      margin-bottom: 0.2rem;
+    }
+
+    .feature-card .feature-en {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+      font-weight: 400;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .download {
+      background: var(--terracotta-deep);
+      padding: 5rem 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    .download h2 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .download p {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      margin-bottom: 2rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .download .app-store-btn {
+      background: white;
+      color: var(--terracotta-deep);
+    }
+
+    .download .app-store-btn svg { fill: var(--terracotta-deep); }
+
+    .download .app-store-btn:hover {
+      background: var(--cream);
+    }
+
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.7);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    footer .links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    footer .links a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: opacity 0.2s;
+    }
+
+    footer .links a:hover { opacity: 0.8; }
+
+    footer .copyright {
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+      }
+      .hero-text h1 { font-size: 2.5rem; }
+      .hero-mockup { flex: 0 0 auto; }
+      .phone { width: 240px; height: 480px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .hero { min-height: auto; padding: 4rem 1.5rem 3rem; }
+      .hero-text h1 { font-size: 2rem; }
+      .hero-text .subtitle { font-size: 1rem; }
+      .features { padding: 4rem 1.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .features-header h2 { font-size: 1.8rem; }
+      .phone { width: 200px; height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <span class="badge">iOS App</span>
+      <h1>澳泊</h1>
+      <div class="subtitle">
+        澳門停車場 · 即時車位資訊
+        <span class="en">Parking Go — Real-time parking availability in Macau</span>
+      </div>
+      <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6670761273" class="app-store-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        Download on the App Store
+      </a>
+    </div>
+    <div class="hero-mockup">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="mock-map">
+            <div class="status-bar">
+              <span>9:41</span>
+              <span>📍 澳門</span>
+            </div>
+            <div class="map-area">
+              <div class="map-pin"></div>
+              <div class="map-pin"></div>
+              <div class="map-pin"></div>
+              <div class="map-pin"></div>
+            </div>
+            <div class="bottom-card">
+              <div>
+                <div class="name">栢湖停車場</div>
+                <div class="status">● 48 車位</div>
+              </div>
+              <div class="status" style="color:#b45f4a;">輕微</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-header">
+    <h2>功能特色</h2>
+    <p>Features</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="icon">🅿️</span>
+      <h3>即時車位</h3>
+      <div class="feature-en">Real-time Availability</div>
+      <p>全澳門停車場實時車位數目，一目了然。綠色有空位、橙色將滿、紅色已滿。</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="icon">🗺️</span>
+      <h3>地圖模式</h3>
+      <div class="feature-en">Map View</div>
+      <p>地圖上直接查看各停車場位置與即時狀態，縮放瀏覽，快速規劃泊車路線。</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="icon">💬</span>
+      <h3>動態島</h3>
+      <div class="feature-en">Live Activity</div>
+      <p>動態島即時推送車位狀態變化，無需打開 app 即可掌握最新車位情況。</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="icon">🔍</span>
+      <h3>搜尋列表</h3>
+      <div class="feature-en">Search &amp; List</div>
+      <p>按名稱、區域搜尋停車場，列表顯示詳細車位資訊，快速找到心儀車位。</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="icon">🎤</span>
+      <h3>語音搜尋</h3>
+      <div class="feature-en">Voice Search</div>
+      <p>直接講出停車場名稱，語音識別即時搜尋，駕駛時更安全方便。</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="icon">📊</span>
+      <h3>預測功能</h3>
+      <div class="feature-en">Prediction</div>
+      <p>分析歷史數據，預測車位趨勢，幫你選擇最佳泊車時間。</p>
+    </div>
+  </div>
+</section>
+
+<section class="download">
+  <h2>立即下載</h2>
+  <p>Download now and find your parking spot with ease.</p>
+  <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6670761273" class="app-store-btn" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+    Download on the App Store
+  </a>
+</section>
+
+<footer>
+  <div class="links">
+    <a href="https://www.threads.com/@macaoparkgo?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14.258 10.152c.463-.303.962-.682 1.343-1.246.228-.337.41-.717.532-1.145.139-.486.09-.948-.066-1.369-.178-.484-.536-.843-.973-1.094-.48-.276-1.07-.411-1.776-.411H7.048v14.394h4.387c.893 0 1.652-.155 2.296-.467.606-.293 1.094-.732 1.46-1.307.359-.568.536-1.245.536-2.017 0-1.026-.318-1.876-.985-2.497-.472-.44-1.028-.738-1.484-.841z"/></svg>
+      @macaoparkgo
+    </a>
+    <a href="mailto:chi.lio@icloud.com">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      chi.lio@icloud.com
+    </a>
+    <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6670761273" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      App Store
+    </a>
+  </div>
+  <div class="copyright">&copy; 2026 澳泊 Parking Go. All rights reserved.</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
+
+</body>
+</html>
