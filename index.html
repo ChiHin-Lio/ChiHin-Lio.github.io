@@ -1,42 +1,83 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>澳泊 Parking Go — 澳門停車場即時資訊</title>
+  <title data-i18n="title">Chi Hin Lio &middot; App Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
-      --terracotta: #b45f4a;
-      --terracotta-deep: #8a3c2c;
-      --terracotta-light: #d4897a;
       --cream: #faf6f0;
       --cream-dark: #f5ede4;
+      --cream-deep: #e8ddd0;
+      --terracotta: #b45f4a;
+      --terracotta-light: #d4897a;
+      --terracotta-deep: #8a3c2c;
+      --navy: #1a3a6b;
+      --navy-light: rgba(26, 58, 107, 0.08);
+      --navy-border: rgba(26, 58, 107, 0.15);
       --text: #2c2c2c;
       --text-light: #6b6b6b;
+      --text-tertiary: #9c9c9c;
       --white: #ffffff;
-      --font-heading: 'DM Serif Display', serif;
+      --border: rgba(0, 0, 0, 0.06);
+      --radius: 12px;
+      --font-display: 'DM Serif Display', serif;
       --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+
+    section[id] { scroll-margin-top: 100px; }
 
     body {
       font-family: var(--font-body);
       color: var(--text);
       background: var(--cream);
       line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
     }
 
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── Lang Toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+      width: fit-content;
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+    }
+    .lang-toggle button {
+      background: none; border: none;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.04em; padding: 6px 12px; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .lang-toggle button.active { background: var(--terracotta); color: var(--white); }
+    .lang-toggle button:not(.active):hover { color: var(--text); }
+
+    /* ── Hero ── */
     .hero {
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      padding: 80px 0;
       position: relative;
       overflow: hidden;
     }
@@ -44,523 +85,966 @@
     .hero::before {
       content: '';
       position: absolute;
-      width: 600px;
-      height: 600px;
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(180,95,74,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(180, 95, 74, 0.06) 0%, transparent 70%);
       top: -200px;
-      right: -200px;
+      right: -150px;
       pointer-events: none;
     }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(180,95,74,0.04) 0%, transparent 70%);
-      bottom: -150px;
-      left: -150px;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      display: flex;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
       align-items: center;
-      gap: 4rem;
-      max-width: 1100px;
-      width: 100%;
       position: relative;
       z-index: 1;
     }
 
     .hero-text {
-      flex: 1;
       opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.8s ease 0.2s forwards;
+      transform: translateY(24px);
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
     }
 
-    .hero-text .badge {
-      display: inline-block;
-      background: var(--terracotta);
-      color: white;
-      padding: 0.25rem 0.75rem;
-      border-radius: 99px;
-      font-size: 0.75rem;
+    .hero-text .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
       font-weight: 500;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeInUp 0.6s ease 0.1s forwards;
+      color: var(--text-tertiary);
+      margin-bottom: 20px;
     }
 
     .hero-text h1 {
-      font-family: var(--font-heading);
-      font-size: 3.5rem;
-      line-height: 1.15;
+      font-family: var(--font-display);
+      font-size: 52px;
+      line-height: 1.05;
       color: var(--terracotta);
-      margin-bottom: 0.5rem;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-text .sub {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-light);
+      max-width: 400px;
+    }
+
+    .hero-logos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+
+    .hero-card {
       display: flex;
       align-items: center;
-      gap: 0.4em;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
     }
 
-    .hero-text h1 .app-icon {
-      height: 1em;
-      border-radius: 18%;
-      display: block;
+    .hero-card:hover {
+      border-color: var(--terracotta);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
     }
 
-    .hero-text .subtitle {
-      font-size: 1.25rem;
+    .hero-card .app-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .hero-card .icon-fallback {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .hero-card .info h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .hero-card .info p {
+      font-size: 13px;
       color: var(--text-light);
-      font-weight: 300;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
     }
 
-    .hero-text .subtitle .en {
-      display: block;
-      font-size: 0.95rem;
-      color: var(--text-light);
-      margin-top: 0.25rem;
+    .hero-card .badge-os {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: 4px 10px;
+      background: var(--cream);
+      border-radius: 6px;
+      white-space: nowrap;
     }
 
-    .app-store-btn {
+    /* ── App Section ── */
+    .app-section {
+      padding: 80px 0;
+    }
+
+    .app-section--parking { background: var(--cream-dark); }
+    .app-section--matrix { background: var(--cream); }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .app-grid--reverse .app-grid-visual { order: 2; }
+    .app-grid--reverse .app-grid-info { order: 1; }
+
+    .app-grid-info .app-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--text);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 12px;
-      text-decoration: none;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
       font-weight: 500;
-      font-size: 0.9rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      opacity: 0;
-      animation: fadeInUp 0.6s ease 0.5s forwards;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 16px;
     }
 
-    .app-store-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    .app-grid-info .app-badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
     }
 
-    .app-store-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: white;
+    .app-grid-info .app-badge .dot--parking { background: var(--terracotta); }
+    .app-grid-info .app-badge .dot--matrix { background: var(--navy); }
+
+    .app-grid-info h3 {
+      font-family: var(--font-display);
+      font-size: 30px;
+      line-height: 1.15;
+      margin-bottom: 14px;
     }
 
-    .hero-mockup {
-      flex: 0 0 300px;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.8s ease 0.4s forwards;
+    .app-grid-info h3 .accent--parking { color: var(--terracotta); }
+    .app-grid-info h3 .accent--matrix { color: var(--navy); }
+
+    .app-grid-info .desc {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      max-width: 420px;
     }
 
-    .phone {
-      width: 280px;
-      height: 560px;
+    .app-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .app-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      list-style: none;
+    }
+
+    .app-features li svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .app-features li .check--parking { color: var(--terracotta); }
+    .app-features li .check--matrix { color: var(--navy); }
+
+    .app-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .app-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .app-btn--primary.app-btn--parking {
+      background: var(--terracotta);
+      color: var(--white);
+    }
+
+    .app-btn--primary.app-btn--parking:hover {
+      background: var(--terracotta-deep);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(180, 95, 74, 0.25);
+    }
+
+    .app-btn--primary.app-btn--matrix {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .app-btn--primary.app-btn--matrix:hover {
+      background: #122a50;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(26, 58, 107, 0.25);
+    }
+
+    .app-btn--secondary {
+      background: var(--white);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .app-btn--secondary:hover {
+      border-color: var(--text-light);
+      transform: translateY(-1px);
+    }
+
+    .app-btn:active { transform: scale(0.97); }
+
+    /* ── Apple Store badge ── */
+    .store-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      background: #000;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .store-badge:hover {
+      background: #1a1a1a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    .store-badge:active { transform: scale(0.97); }
+    .store-badge .badge-icon {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+    .store-badge .badge-text { line-height: 1; }
+    .store-badge .badge-text .line1 {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.02em;
+      display: block;
+      margin-bottom: 1px;
+    }
+    .store-badge .badge-text .line2 {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+      display: block;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .store-badge { background: #fff; }
+      .store-badge:hover { background: #e6e6e6; }
+      .store-badge .badge-icon { fill: #000; }
+      .store-badge .badge-text .line1 { color: rgba(0,0,0,0.7); }
+      .store-badge .badge-text .line2 { color: #000; }
+    }
+
+    .app-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .app-btn--secondary svg {
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* ── Phone mockup (Parking) ── */
+    .app-grid-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-mockup {
+      width: 260px;
+      height: 530px;
       background: var(--text);
       border-radius: 36px;
       padding: 12px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
       position: relative;
-      margin: 0 auto;
     }
 
-    .phone-notch {
+    .phone-mockup .notch {
       position: absolute;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 120px;
-      height: 28px;
+      width: 110px;
+      height: 26px;
       background: var(--text);
-      border-radius: 0 0 16px 16px;
+      border-radius: 0 0 14px 14px;
       z-index: 2;
     }
 
-    .phone-screen {
+    .phone-mockup .screen {
       width: 100%;
       height: 100%;
-      background: linear-gradient(180deg, #f5ede4 0%, #e8ddd0 50%, #d4c4b2 100%);
+      background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream-deep) 50%, #d4c4b2 100%);
       border-radius: 24px;
       overflow: hidden;
-      position: relative;
-    }
-
-    .mock-map {
-      padding: 1rem;
-      height: 100%;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
     }
 
-    .mock-map .status-bar {
+    .screen .status-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.6rem;
+      font-size: 10px;
       color: var(--text-light);
-      padding-bottom: 0.5rem;
+      margin-bottom: 8px;
     }
 
-    .mock-map .map-area {
+    .screen .map-area {
       flex: 1;
-      background: linear-gradient(135deg, #d4c9b8 0%, #c4b8a4 50%, #b8aa96 100%);
-      border-radius: 12px;
-      margin: 0.5rem 0;
+      background: linear-gradient(135deg, #d4c9b8, #b8aa96);
+      border-radius: 10px;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin: 6px 0;
     }
 
-    .mock-map .map-pin {
-      width: 12px;
-      height: 12px;
+    .screen .map-area .pin {
+      position: absolute;
+      width: 10px;
+      height: 10px;
       background: var(--terracotta);
       border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(180,95,74,0.2);
-      position: absolute;
+      box-shadow: 0 0 0 3px rgba(180, 95, 74, 0.2);
     }
 
-    .mock-map .map-pin:nth-child(1) { top: 25%; left: 30%; }
-    .mock-map .map-pin:nth-child(2) { top: 45%; left: 60%; }
-    .mock-map .map-pin:nth-child(3) { top: 65%; left: 40%; }
-    .mock-map .map-pin:nth-child(4) { top: 35%; left: 75%; }
+    .screen .map-area .pin:nth-child(1) { top: 28%; left: 30%; }
+    .screen .map-area .pin:nth-child(2) { top: 48%; left: 58%; }
+    .screen .map-area .pin:nth-child(3) { top: 68%; left: 38%; }
+    .screen .map-area .pin:nth-child(4) { top: 38%; left: 72%; }
 
-    .mock-map .bottom-card {
-      background: white;
+    .screen .parking-card {
+      background: var(--white);
       border-radius: 10px;
-      padding: 0.5rem 0.75rem;
-      margin-top: 0.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 10px 12px;
+      margin-top: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
-    .mock-map .bottom-card .name {
-      font-size: 0.65rem;
+    .screen .parking-card .name {
+      font-size: 11px;
       font-weight: 600;
     }
 
-    .mock-map .bottom-card .status {
-      font-size: 0.6rem;
+    .screen .parking-card .spots {
+      font-size: 10px;
       color: #2d8a4e;
       font-weight: 500;
     }
 
-    .features {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
+    /* ── Matrix phone mockup ── */
+    .phone-mockup--dark .screen {
+      background: #1a1a1a;
+      color: rgba(255, 255, 255, 0.85);
     }
 
-    .features-header {
+    .phone-mockup--dark .screen .status-row {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .matrix-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .matrix-header span {
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .matrix-header .lock {
+      width: 12px;
+      height: 12px;
+    }
+
+    .matrix-providers {
+      flex: 1;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .matrix-providers .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+    }
+
+    .matrix-providers .row .name {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .matrix-providers .row .status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.4);
+      font-family: var(--font-mono);
+    }
+
+    .matrix-providers .row .status .pulse {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #4ade80;
+    }
+
+    .matrix-usage {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 4px;
+    }
+
+    .matrix-usage .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.4);
+      font-family: var(--font-mono);
+    }
+
+    .matrix-usage .row:last-child { margin-bottom: 0; }
+
+    .matrix-usage .row .val {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .matrix-usage .bar-wrap {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .matrix-usage .bar-wrap .bar {
+      height: 100%;
+      width: 62%;
+      background: linear-gradient(90deg, var(--navy-light), var(--navy));
+      border-radius: 2px;
+    }
+
+    /* ── Footer ── */
+    .footer {
       text-align: center;
-      margin-bottom: 4rem;
+      padding: 48px 32px;
+      border-top: 1px solid var(--border);
     }
 
-    .features-header h2 {
-      font-family: var(--font-heading);
-      font-size: 2.5rem;
-      color: var(--terracotta);
-      margin-bottom: 0.75rem;
-    }
-
-    .features-header p {
-      color: var(--text-light);
-      font-size: 1.05rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .feature-card {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem 1.5rem;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      transition: transform 0.3s, box-shadow 0.3s;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .feature-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s, transform 0.3s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.10);
-    }
-
-    .feature-card .icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .feature-card h3 {
-      font-family: var(--font-heading);
-      font-size: 1.2rem;
-      color: var(--terracotta);
-      margin-bottom: 0.2rem;
-    }
-
-    .feature-card .feature-en {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      margin-bottom: 0.75rem;
-      font-weight: 400;
-    }
-
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    .download {
-      background: var(--terracotta-deep);
-      padding: 5rem 2rem;
-      text-align: center;
-      color: white;
-    }
-
-    .download h2 {
-      font-family: var(--font-heading);
-      font-size: 2.2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .download p {
-      font-size: 1.05rem;
-      opacity: 0.85;
-      margin-bottom: 2rem;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .download .app-store-btn {
-      background: white;
-      color: var(--terracotta-deep);
-    }
-
-    .download .app-store-btn svg { fill: var(--terracotta-deep); }
-
-    .download .app-store-btn:hover {
-      background: var(--cream);
-    }
-
-    footer {
-      background: var(--text);
-      color: rgba(255,255,255,0.7);
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-
-    footer .links {
+    .footer .links {
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
+      gap: 24px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
-    footer .links a {
-      color: white;
+    .footer .links a {
+      color: var(--text-light);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 13px;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      transition: opacity 0.2s;
+      gap: 6px;
+      transition: color 0.2s;
     }
 
-    footer .links a:hover { opacity: 0.8; }
+    .footer .links a:hover { color: var(--text); }
 
-    footer .copyright {
-      font-size: 0.8rem;
-      opacity: 0.5;
+    .footer .links a svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
     }
 
-    @keyframes fadeInUp {
+    .footer .links a .foot-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .footer .copy {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.05s; }
+    .reveal-delay-2 { transition-delay: 0.15s; }
+    .reveal-delay-3 { transition-delay: 0.25s; }
+    .reveal-delay-4 { transition-delay: 0.35s; }
+
+    @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 900px) {
-      .hero-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 2rem;
+    @media (prefers-reduced-motion: reduce) {
+      .hero-text, .hero-logos, .reveal { opacity: 1; transform: none; animation: none; transition: none; }
+    }
+
+    /* ── Dark mode ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cream: #141312;
+        --cream-dark: #1c1b1a;
+        --cream-deep: #2a2825;
+        --terracotta: #d4897a;
+        --terracotta-light: #e8a898;
+        --terracotta-deep: #b45f4a;
+        --navy: #7a9fd4;
+        --navy-light: rgba(122, 159, 212, 0.1);
+        --navy-border: rgba(122, 159, 212, 0.2);
+        --text: #e8e6e1;
+        --text-light: #9c9a94;
+        --text-tertiary: #6b6a66;
+        --white: #1c1b1a;
+        --border: rgba(255, 255, 255, 0.06);
       }
-      .hero-text h1 { font-size: 2.5rem; }
-      .hero-mockup { flex: 0 0 auto; }
-      .phone { width: 240px; height: 480px; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .hero::before {
+        background: radial-gradient(circle, rgba(212, 137, 122, 0.08) 0%, transparent 70%);
+      }
+
+      .hero-card .badge-os { background: var(--cream-dark); }
+      .app-section--parking { background: var(--cream); }
+      .app-section--matrix { background: var(--cream-dark); }
+      .app-btn--secondary { background: var(--cream-dark); }
+      .lang-toggle button.active { background: var(--terracotta); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-text h1 { font-size: 40px; }
+      .app-grid { grid-template-columns: 1fr; gap: 40px; }
+      .app-grid--reverse .app-grid-visual { order: 1; }
+      .app-grid--reverse .app-grid-info { order: 2; }
+      .app-grid-visual { order: -1; }
+      .container { padding: 0 24px; }
+      .lang-toggle { top: 16px; right: 16px; }
     }
 
     @media (max-width: 600px) {
-      .hero { min-height: auto; padding: 4rem 1.5rem 3rem; }
-      .hero-text h1 { font-size: 2rem; }
-      .hero-text .subtitle { font-size: 1rem; }
-      .features { padding: 4rem 1.5rem; }
-      .features-grid { grid-template-columns: 1fr; }
-      .features-header h2 { font-size: 1.8rem; }
-      .phone { width: 200px; height: 400px; }
+      .hero { min-height: auto; padding: 60px 0 40px; }
+      .hero-text h1 { font-size: 32px; }
+      .hero-card { padding: 16px; }
+      .hero-card .app-icon, .hero-card .icon-fallback { width: 44px; height: 44px; }
+      .hero-card .info h2 { font-size: 17px; }
+      .app-section { padding: 60px 0; }
+      .app-grid-info h3 { font-size: 24px; }
+      .phone-mockup { width: 220px; height: 450px; }
+      .footer .links { gap: 16px; flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <span class="badge">iOS App</span>
-      <h1><img class="app-icon" src="app-icon.png" alt="澳泊" draggable="false"> 澳泊</h1>
-      <div class="subtitle">
-        澳門停車場 · 即時車位資訊
-        <span class="en">Parking Go — Real-time parking availability in Macau</span>
+  <div class="lang-toggle" role="group" aria-label="Language switch">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="zh">中</button>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow" data-i18n="heroEyebrow">App Developer</div>
+        <h1>Chi Hin Lio</h1>
+        <p class="sub" data-i18n="heroSub">Building practical iOS apps that solve everyday problems. From parking in Macau to managing API keys securely.</p>
       </div>
-      <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6767880155" class="app-store-btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        Download on the App Store
-      </a>
+      <div class="hero-logos">
+        <a href="#parking" class="hero-card">
+          <img class="app-icon" src="app-icon.png" alt="泊" draggable="false">
+          <div class="info">
+            <h2 data-i18n="parkingName">Parking Go</h2>
+            <p data-i18n="parkingTagline">Parking Go — Macau real-time parking</p>
+          </div>
+          <span class="badge-os">iOS</span>
+        </a>
+        <a href="#matrix" class="hero-card">
+          <img class="app-icon" src="apimatrix-icon.png" alt="API Matrix" draggable="false">
+          <div class="info">
+            <h2 data-i18n="matrixName">API Matrix</h2>
+            <p data-i18n="matrixTagline">Secure key vault for AI providers</p>
+          </div>
+          <span class="badge-os">iOS</span>
+        </a>
+      </div>
     </div>
-    <div class="hero-mockup">
-      <div class="phone">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="mock-map">
-            <div class="status-bar">
+  </section>
+
+  <!-- ═══ APP 1: 泊 ═══ -->
+  <section class="app-section app-section--parking" id="parking">
+    <div class="container app-grid">
+      <div class="app-grid-visual reveal reveal-delay-1">
+        <div class="phone-mockup">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="status-row">
               <span>9:41</span>
-              <span>📍 澳門</span>
+              <span data-i18n="mockLocation">Macau</span>
             </div>
             <div class="map-area">
-              <div class="map-pin"></div>
-              <div class="map-pin"></div>
-              <div class="map-pin"></div>
-              <div class="map-pin"></div>
+              <div class="pin"></div>
+              <div class="pin"></div>
+              <div class="pin"></div>
+              <div class="pin"></div>
             </div>
-            <div class="bottom-card">
+            <div class="parking-card">
               <div>
-                <div class="name">栢湖停車場</div>
-                <div class="status">● 48 車位</div>
+                <div class="name" data-i18n="mockLot">栢湖停車場</div>
+                <div class="spots" data-i18n="mockSpots">● 48 spots</div>
               </div>
-              <div class="status" style="color:#2d8a4e;">有位</div>
+              <div class="spots" style="color:#2d8a4e;" data-i18n="mockAvail">Available</div>
             </div>
           </div>
         </div>
       </div>
+        <div class="app-grid-info">
+        <div class="app-badge reveal">
+          <span class="dot dot--parking"></span>
+          iOS
+        </div>
+        <h3 class="reveal reveal-delay-1"><span class="accent--parking" data-i18n="parkingName">Parking Go</span></h3>
+        <p class="desc reveal reveal-delay-2" data-i18n="parkingDesc">Real-time parking availability across Macau. Check spot counts, find nearby lots, and never circle the block again.</p>
+        <ul class="app-features">
+          <li class="reveal reveal-delay-1">
+            <svg class="check--parking" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="pf1">Live parking spot counts across all Macau lots</span>
+          </li>
+          <li class="reveal reveal-delay-2">
+            <svg class="check--parking" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="pf2">Interactive map with color-coded availability</span>
+          </li>
+          <li class="reveal reveal-delay-3">
+            <svg class="check--parking" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="pf3">Live Activity & Dynamic Island support</span>
+          </li>
+          <li class="reveal reveal-delay-4">
+            <svg class="check--parking" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="pf4">Voice search & historical trend predictions</span>
+          </li>
+        </ul>
+        <div class="app-actions reveal reveal-delay-3">
+          <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6767880155" class="store-badge" target="_blank" rel="noopener">
+            <svg class="badge-icon" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            <div class="badge-text">
+              <span class="line1" data-i18n="badgeLine1">Download on the</span>
+              <span class="line2" data-i18n="badgeLine2">App Store</span>
+            </div>
+          </a>
+          <a href="parking.html" class="app-btn app-btn--secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-i18n="learnMore">Learn More</span>
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="features">
-  <div class="features-header">
-    <h2>功能特色</h2>
-    <p>Features</p>
-  </div>
-
-  <div class="features-grid">
-    <div class="feature-card">
-      <span class="icon">🅿️</span>
-      <h3>即時車位</h3>
-      <div class="feature-en">Real-time Availability</div>
-      <p>全澳門停車場實時車位數目，一目了然。綠色有空位、橙色將滿、紅色已滿。</p>
+  <!-- ═══ APP 2: API Matrix ═══ -->
+  <section class="app-section app-section--matrix" id="matrix">
+    <div class="container app-grid app-grid--reverse">
+      <div class="app-grid-visual reveal reveal-delay-1">
+        <div class="phone-mockup phone-mockup--dark">
+          <div class="notch" style="background:#1a1a1a;"></div>
+          <div class="screen">
+            <div class="status-row">
+              <span>9:41</span>
+              <span data-i18n="mockSignal">Wi-Fi</span>
+            </div>
+            <div class="matrix-header">
+              <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span data-i18n="matrixHeader">API Matrix</span>
+            </div>
+            <div class="matrix-providers">
+              <div class="row">
+                <span class="name">OpenAI</span>
+                <span class="status"><span class="pulse"></span> <span data-i18n="statusOk">Active</span></span>
+              </div>
+              <div class="row">
+                <span class="name">Anthropic</span>
+                <span class="status"><span class="pulse"></span> <span data-i18n="statusOk">Active</span></span>
+              </div>
+              <div class="row">
+                <span class="name">Google AI</span>
+                <span class="status"><span class="pulse"></span> <span data-i18n="statusOk">Active</span></span>
+              </div>
+            </div>
+            <div class="matrix-usage">
+              <div class="row">
+                <span data-i18n="usageLabel">Monthly Usage</span>
+                <span class="val">62%</span>
+              </div>
+              <div class="row">
+                <span data-i18n="tokensLabel">Tokens</span>
+                <span class="val">1.4M / 2.5M</span>
+              </div>
+              <div class="bar-wrap"><div class="bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="app-grid-info">
+        <div class="app-badge reveal">
+          <span class="dot dot--matrix"></span>
+          iOS
+        </div>
+        <h3 class="reveal reveal-delay-1"><span class="accent--matrix" data-i18n="matrixName">API Matrix</span></h3>
+        <p class="desc reveal reveal-delay-2" data-i18n="matrixDesc">Centrally manage, test, and secure all your AI provider API keys. Biometric-locked, locally stored, always in control.</p>
+        <ul class="app-features">
+          <li class="reveal reveal-delay-1">
+            <svg class="check--matrix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="mf1">Store keys from 20+ AI providers in one place</span>
+          </li>
+          <li class="reveal reveal-delay-2">
+            <svg class="check--matrix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="mf2">One-tap connectivity & latency testing</span>
+          </li>
+          <li class="reveal reveal-delay-3">
+            <svg class="check--matrix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="mf3">Biometric lock (Face ID / Touch ID)</span>
+          </li>
+          <li class="reveal reveal-delay-4">
+            <svg class="check--matrix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="mf4">Track token consumption & spending</span>
+          </li>
+        </ul>
+        <div class="app-actions reveal reveal-delay-3">
+          <a href="https://apps.apple.com/mo/app/api%E5%84%B2%E9%99%A3/id6779679646" class="store-badge" target="_blank" rel="noopener">
+            <svg class="badge-icon" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            <div class="badge-text">
+              <span class="line1" data-i18n="badgeLine1">Download on the</span>
+              <span class="line2" data-i18n="badgeLine2">App Store</span>
+            </div>
+          </a>
+          <a href="https://hinesslio.github.io/api-matrix-info" class="app-btn app-btn--secondary" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-i18n="learnMoreMatrix">Learn More</span>
+          </a>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="feature-card">
-      <span class="icon">🗺️</span>
-      <h3>地圖模式</h3>
-      <div class="feature-en">Map View</div>
-      <p>地圖上直接查看各停車場位置與即時狀態，縮放瀏覽，快速規劃泊車路線。</p>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="links">
+      <a href="mailto:chi.lio@icloud.com">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        chi.lio@icloud.com
+      </a>
+      <a href="parking.html">
+        <img class="foot-icon" src="app-icon.png" alt="" draggable="false">
+        <span data-i18n="footerParking">Parking Go</span>
+      </a>
+      <a href="https://hinesslio.github.io/api-matrix-info" target="_blank" rel="noopener">
+        <img class="foot-icon" src="apimatrix-icon.png" alt="" draggable="false">
+        API Matrix
+      </a>
     </div>
+    <div class="copy">&copy; 2026 Chi Hin Lio</div>
+  </footer>
 
-    <div class="feature-card">
-      <span class="icon">💬</span>
-      <h3>動態島</h3>
-      <div class="feature-en">Live Activity</div>
-      <p>動態島即時推送車位狀態變化，無需打開 app 即可掌握最新車位情況。</p>
-    </div>
-
-    <div class="feature-card">
-      <span class="icon">🔍</span>
-      <h3>搜尋列表</h3>
-      <div class="feature-en">Search &amp; List</div>
-      <p>按名稱、區域搜尋停車場，列表顯示詳細車位資訊，快速找到心儀車位。</p>
-    </div>
-
-    <div class="feature-card">
-      <span class="icon">🎤</span>
-      <h3>語音搜尋</h3>
-      <div class="feature-en">Voice Search</div>
-      <p>直接講出停車場名稱，語音識別即時搜尋，駕駛時更安全方便。</p>
-    </div>
-
-    <div class="feature-card">
-      <span class="icon">📊</span>
-      <h3>預測功能</h3>
-      <div class="feature-en">Prediction</div>
-      <p>分析歷史數據，預測車位趨勢，幫你選擇最佳泊車時間。</p>
-    </div>
-  </div>
-</section>
-
-<section class="download">
-  <h2>立即下載</h2>
-  <p>Download now and find your parking spot with ease.</p>
-  <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6767880155" class="app-store-btn" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-    Download on the App Store
-  </a>
-</section>
-
-<footer>
-  <div class="links">
-    <a href="https://www.threads.com/@macaoparkgo?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
-      <svg width="18" height="18" viewBox="0 0 192 192" fill="currentColor" aria-label="Threads"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.834 117.143 138.28 106.366C144.217 109.949 148.617 114.664 151.047 120.332C155.179 129.967 155.42 145.8 142.501 158.708C131.182 170.016 117.576 174.908 97.0135 175.059C74.2042 174.89 56.9538 167.575 45.7381 153.317C35.2355 139.966 29.8077 120.682 29.6052 96C29.8077 71.3178 35.2355 52.0336 45.7381 38.6827C56.9538 24.4249 74.2039 17.11 97.0132 16.9405C119.988 17.1113 137.539 24.4614 149.184 38.788C154.894 45.8136 159.199 54.6488 162.037 64.9503L178.184 60.6422C174.744 47.9622 169.331 37.0357 161.965 27.974C147.036 9.60668 125.202 0.195148 97.0695 0H96.9569C68.8816 0.19447 47.2921 9.6418 32.7883 28.0793C19.8819 44.4864 13.2244 67.3157 13.0007 95.9325L13 96L13.0007 96.0675C13.2244 124.684 19.8819 147.514 32.7883 163.921C47.2921 182.358 68.8816 191.806 96.9569 192H97.0695C122.03 191.827 139.624 185.292 154.118 170.811C173.081 151.866 172.51 128.119 166.26 113.541C161.776 103.087 153.227 94.5962 141.537 88.9883ZM98.4405 129.507C88.0005 130.095 77.1544 125.409 76.6196 115.372C76.2232 107.93 81.9158 99.626 99.0812 98.6368C101.047 98.5234 102.976 98.468 104.871 98.468C111.106 98.468 116.939 99.0737 122.242 100.233C120.264 124.935 108.662 128.946 98.4405 129.507Z"></path></svg>
-      @macaoparkgo
-    </a>
-    <a href="mailto:chi.lio@icloud.com">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      chi.lio@icloud.com
-    </a>
-    <a href="https://apps.apple.com/mo/app/%E6%BE%B3%E6%B3%8A/id6767880155" target="_blank" rel="noopener">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-      App Store
-    </a>
-  </div>
-  <div class="copyright">&copy; 2026 澳泊 Parking Go. All rights reserved.</div>
-</footer>
-
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+  <script>
+    const i18n = {
+      en: {
+        title: 'Chi Hin Lio \u00B7 App Developer',
+        heroEyebrow: 'App Developer',
+        heroSub: 'Building practical iOS apps that solve everyday problems. From parking in Macau to managing API keys securely.',
+        parkingTagline: 'Macau real-time parking',
+        matrixTagline: 'Secure key vault for AI providers',
+        mockLocation: 'Macau',
+        mockLot: 'Lotus Parking Lot',
+        mockSpots: '\u25CF 48 spots',
+        mockAvail: 'Available',
+        parkingName: 'Parking Go',
+        parkingDesc: 'Real-time parking availability across Macau. Check spot counts, find nearby lots, and never circle the block again.',
+        pf1: 'Live parking spot counts across all Macau lots',
+        pf2: 'Interactive map with color-coded availability',
+        pf3: 'Live Activity & Dynamic Island support',
+        pf4: 'Voice search & historical trend predictions',
+        badgeLine1: 'Download on the',
+        badgeLine2: 'App Store',
+        learnMore: 'Learn More',
+        mockSignal: 'Wi-Fi',
+        matrixHeader: 'API Matrix',
+        matrixName: 'API Matrix',
+        statusOk: 'Active',
+        usageLabel: 'Monthly Usage',
+        tokensLabel: 'Tokens',
+        matrixDesc: 'Centralize, test, and secure all your AI provider API keys. Biometric-locked, locally stored, always in control.',
+        mf1: 'Store keys from 20+ AI providers in one place',
+        mf2: 'One-tap connectivity & latency testing',
+        mf3: 'Biometric lock (Face ID / Touch ID)',
+        mf4: 'Track token consumption & spending',
+        learnMoreMatrix: 'Learn More',
+        footerParking: 'Parking Go',
+      },
+      zh: {
+        title: 'Chi Hin Lio \u00B7 App \u958B\u767C\u8005',
+        heroEyebrow: 'App \u958B\u767C\u8005',
+        heroSub: '\u5F9E\u6FB3\u9580\u505C\u8ECA\u5230 API \u91D1\u9470\u7BA1\u7406\uFF0C\u7C21\u55AE\u5BE6\u7528\u7684 iOS App \u89E3\u6C7A\u6BCF\u4E00\u500B\u751F\u6D3B\u554F\u984C\u3002',
+        parkingTagline: '\u6FB3\u9580\u5BE6\u6642\u505C\u8ECA\u4F4D\u8CC7\u8A0A',
+        matrixTagline: '\u5B89\u5168\u7684 AI \u4F9B\u61C9\u5546 API \u91D1\u9470\u4FDD\u7BA1\u5EAB',
+        mockLocation: '\u6FB3\u9580',
+        mockLot: '\u6842\u6E56\u505C\u8ECA\u5834',
+        mockSpots: '\u25CF 48 \u8ECA\u4F4D',
+        mockAvail: '\u6709\u4F4D',
+        parkingName: '\u6FB3\u6CCA',
+        parkingDesc: '\u5168\u6FB3\u9580\u505C\u8ECA\u5834\u5BE6\u6642\u8ECA\u4F4D\u6578\u76EE\uFF0C\u4E00\u76EE\u77AD\u7136\u3002\u67E5\u770B\u4F4D\u7F6E\u3001\u6578\u91CF\uFF0C\u518D\u4E5F\u4E0D\u7528\u7E7C\u8857\u7E7C\u5DF7\u627E\u4F4D\u3002',
+        pf1: '\u5168\u6FB3\u9580\u505C\u8ECA\u5834\u5BE6\u6642\u8ECA\u4F4D\u6578\u76EE',
+        pf2: '\u5730\u5716\u6A21\u5F0F\u984F\u8272\u5206\u8FA8\u4F4D\u7F6E\u8207\u72C0\u614B',
+        pf3: '\u52D5\u614B\u5CF6\u8207\u5373\u6642\u52D5\u614B\u652F\u63F4',
+        pf4: '\u8A9E\u97F3\u641C\u5C0B\u8207\u6B77\u53F2\u8DA8\u52E2\u9810\u6E2C',
+        badgeLine1: '\u4E0B\u8F09\u81EA',
+        badgeLine2: 'App Store',
+        learnMore: '\u4E86\u89E3\u66F4\u591A',
+        mockSignal: 'Wi-Fi',
+        matrixHeader: 'API\u5132\u9663',
+        matrixName: 'API\u5132\u9663',
+        statusOk: '\u9023\u7DDA\u4E2D',
+        usageLabel: '\u6708\u7528\u91CF',
+        tokensLabel: 'Tokens',
+        matrixDesc: '\u96C6\u4E2D\u7BA1\u7406\u3001\u6E2C\u8A66\u548C\u4FDD\u8B77\u60A8\u6240\u6709 AI \u4F9B\u61C9\u5546\u7684 API \u91D1\u9470\u3002\u751F\u7269\u8FA8\u8B58\u9396\u5B9A\u3001\u672C\u5730\u5132\u5B58\uFF0C\u5B8C\u5168\u638C\u63A7\u3002',
+        mf1: '\u5132\u5B58 20+ \u500B AI \u4F9B\u61C9\u5546\u7684\u91D1\u9470\u65BC\u540C\u4E00\u500B\u5730\u65B9',
+        mf2: '\u4E00\u9EDE\u5373\u6E2C\u9023\u7DDA\u72C0\u614B\u8207\u5EF6\u9072',
+        mf3: '\u751F\u7269\u8FA8\u8B58\u9396\u5B9A (Face ID / Touch ID)',
+        mf4: '\u8FFD\u8E64 Token \u6D88\u8017\u8207\u652F\u51FA',
+        learnMoreMatrix: '\u4E86\u89E3\u66F4\u591A',
+        footerParking: '\u6FB3\u6CCA',
       }
-    });
-  }, { threshold: 0.1 });
+    };
 
-  document.querySelectorAll('.feature-card').forEach(card => {
-    observer.observe(card);
-  });
-</script>
+    let curLang = localStorage.getItem('chihinLang') || 'en';
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang] && i18n[lang][key] !== undefined) {
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+      document.querySelectorAll('.lang-toggle button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      localStorage.setItem('chihinLang', lang);
+      curLang = lang;
+    }
+
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    applyLang(curLang);
+
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
