@@ -309,6 +309,69 @@
     .app-features li .check--bus { color: var(--bus); }
     .app-features li .check--matrix { color: var(--navy); }
 
+    .parking-feature-strip {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) 1.1fr;
+      gap: 32px;
+      align-items: center;
+      margin-top: 56px;
+      padding: 28px 32px;
+      background: var(--white);
+      border: 1px solid rgba(21, 155, 145, 0.14);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(21, 155, 145, 0.06);
+    }
+
+    .parking-feature-strip .kicker {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--bus-deep);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .parking-feature-strip h4 {
+      margin-bottom: 6px;
+      color: var(--bus-deep);
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .parking-feature-strip p {
+      color: var(--text-light);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .parking-feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+    }
+
+    .parking-feature-list .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .parking-feature-list .item::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      margin-top: 5px;
+      border-radius: 50%;
+      background: var(--bus);
+    }
+
     .app-actions {
       display: flex;
       gap: 12px;
@@ -878,6 +941,7 @@
       .app-grid--reverse .app-grid-visual { order: 1; }
       .app-grid--reverse .app-grid-info { order: 2; }
       .app-grid-visual { order: -1; }
+      .parking-feature-strip { grid-template-columns: 1fr; gap: 20px; }
       .container { padding: 0 24px; }
       .lang-toggle { top: 16px; right: 16px; }
     }
@@ -891,6 +955,8 @@
       .app-section { padding: 60px 0; }
       .app-grid-info h3 { font-size: 24px; }
       .phone-mockup { width: 220px; height: 450px; }
+      .parking-feature-strip { margin-top: 40px; padding: 22px; }
+      .parking-feature-list { grid-template-columns: 1fr; }
       .footer .links { gap: 16px; flex-direction: column; }
     }
   </style>
@@ -908,24 +974,16 @@
       <div class="hero-text">
         <div class="eyebrow" data-i18n="heroEyebrow">App Developer</div>
         <h1>Chi Hin Lio</h1>
-        <p class="sub" data-i18n="heroSub">Building practical apps for Macau — from real-time buses and parking to secure API key management.</p>
+        <p class="sub" data-i18n="heroSub">Building practical apps for Macau — including 澳泊, one app for real-time buses and parking, plus secure API key management.</p>
       </div>
       <div class="hero-logos">
-        <a href="#bus" class="hero-card">
-          <div class="icon-fallback icon-fallback--bus" aria-hidden="true">🚌</div>
-          <div class="info">
-            <h2 data-i18n="busName">Bus ETA</h2>
-            <p data-i18n="busTagline">Real-time Macau bus ETA</p>
-          </div>
-          <span class="badge-os">iOS · Android</span>
-        </a>
         <a href="#parking" class="hero-card">
           <img class="app-icon" src="app-icon.png" alt="泊" draggable="false">
           <div class="info">
             <h2 data-i18n="parkingName">Parking Go</h2>
-            <p data-i18n="parkingTagline">Parking Go — Macau real-time parking</p>
+            <p data-i18n="parkingTagline">澳泊 — Macau real-time buses &amp; parking</p>
           </div>
-          <span class="badge-os">iOS</span>
+          <span class="badge-os">iOS · Android</span>
         </a>
         <a href="#matrix" class="hero-card">
           <img class="app-icon" src="apimatrix-icon.png" alt="API Matrix" draggable="false">
@@ -1010,80 +1068,22 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ═══ APP 2: 澳泊巴士 ETA ═══ -->
-  <section class="app-section app-section--bus" id="bus">
-    <div class="container app-grid app-grid--reverse">
-      <div class="app-grid-visual reveal reveal-delay-1">
-        <div class="phone-mockup phone-mockup--bus">
-          <div class="notch"></div>
-          <div class="screen">
-            <div class="status-row">
-              <span>9:41</span>
-              <span data-i18n="mockLocation">Macau</span>
-            </div>
-            <div class="bus-screen-header">
-              <span data-i18n="busScreenTitle">Bus ETA</span>
-              <span class="live" data-i18n="busLive">LIVE</span>
-            </div>
-            <div class="bus-route-selector">
-              <span class="route-code">MT4</span>
-              <span data-i18n="busRouteSelect">往關閘 · 途經 12 站</span>
-            </div>
-            <div class="bus-map">
-              <span class="route-line"></span>
-              <span class="stop stop--one"></span>
-              <span class="stop stop--two"></span>
-              <span class="stop stop--three"></span>
-              <span class="bus-marker">🚌</span>
-            </div>
-            <div class="bus-arrivals">
-              <div class="row"><span class="route">MT4</span><span data-i18n="busDestination">往關閘</span><strong>4 min</strong></div>
-              <div class="row"><span class="route">26</span><span data-i18n="busDestinationTwo">往筷子基</span><strong>8 min</strong></div>
-            </div>
-          </div>
-        </div>
+    <div class="container parking-feature-strip reveal">
+      <div>
+        <span class="kicker" data-i18n="busFeatureKicker">A CORE PARKING GO FEATURE</span>
+        <h4 data-i18n="busFeatureTitle">Bus ETA</h4>
+        <p data-i18n="busFeatureDesc">澳泊將巴士到站同停車位資訊放喺同一個 App，出門前先安排好行程。</p>
       </div>
-      <div class="app-grid-info">
-        <div class="app-badge reveal">
-          <span class="dot dot--bus"></span>
-          <span data-i18n="busPlatform">iOS · Android</span>
-        </div>
-        <h3 class="reveal reveal-delay-1"><span class="accent--bus" data-i18n="busName">Bus ETA</span></h3>
-        <p class="desc reveal reveal-delay-2" data-i18n="busDesc">Real-time bus arrivals and route guidance for Macau. Search a route, follow stops, and see the next bus before you leave.</p>
-        <ul class="app-features">
-          <li class="reveal reveal-delay-1">
-            <svg class="check--bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span data-i18n="bf1">Live arrivals with stops-away and ETA</span>
-          </li>
-          <li class="reveal reveal-delay-2">
-            <svg class="check--bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span data-i18n="bf2">Route maps, nearby stops and transfer routes</span>
-          </li>
-          <li class="reveal reveal-delay-3">
-            <svg class="check--bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span data-i18n="bf3">Save favorite routes and return to recent searches</span>
-          </li>
-          <li class="reveal reveal-delay-4">
-            <svg class="check--bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span data-i18n="bf4">Mobile arrival alerts, plus Live Activity and Apple Watch sync on iOS</span>
-          </li>
-        </ul>
-        <div class="app-actions reveal reveal-delay-3">
-          <a href="https://github.com/ChiHin-Lio/ParkGo/releases/download/android-v2.5.0/app-release.apk" class="app-btn app-btn--primary app-btn--bus" target="_blank" rel="noopener" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-            <span data-i18n="downloadAndroid">Android APK</span>
-          </a>
-          <a href="parking.html" class="app-btn app-btn--secondary">
-            <span data-i18n="busMore">See all Parking Go features</span>
-          </a>
-        </div>
+      <div class="parking-feature-list">
+        <span class="item" data-i18n="bfs1">Live ETA and stops-away information</span>
+        <span class="item" data-i18n="bfs2">Nearby stops, route maps and transfers</span>
+        <span class="item" data-i18n="bfs3">Favorite routes and recent searches</span>
+        <span class="item" data-i18n="bfs4">Mobile arrival alerts; iOS Live Activity and Apple Watch sync</span>
       </div>
     </div>
   </section>
 
-  <!-- ═══ APP 3: API Matrix ═══ -->
+  <!-- ═══ APP 2: API Matrix ═══ -->
   <section class="app-section app-section--matrix" id="matrix">
     <div class="container app-grid app-grid--reverse">
       <div class="app-grid-visual reveal reveal-delay-1">
@@ -1192,7 +1192,7 @@
       en: {
         title: 'Chi Hin Lio \u00B7 App Developer',
         heroEyebrow: 'App Developer',
-        heroSub: 'Building practical apps for Macau — from real-time buses and parking to secure API key management.',
+        heroSub: 'Building practical apps for Macau — including 澳泊, one app for real-time buses and parking, plus secure API key management.',
         busTagline: 'Real-time Macau bus ETA',
         busName: 'Bus ETA',
         busPlatform: 'iOS · Android',
@@ -1207,18 +1207,25 @@
         bf3: 'Save favorite routes and return to recent searches',
         bf4: 'Mobile arrival alerts, plus Live Activity and Apple Watch sync on iOS',
         busMore: 'See all Parking Go features',
-        parkingTagline: 'Macau real-time parking',
+        parkingTagline: '澳泊 — Macau real-time buses & parking',
         matrixTagline: 'Secure key vault for AI providers',
         mockLocation: 'Macau',
         mockLot: 'Lotus Parking Lot',
         mockSpots: '\u25CF 48 spots',
         mockAvail: 'Available',
         parkingName: 'Parking Go',
-        parkingDesc: 'Live car, motorcycle and EV spaces across Macau, with nearby search, cruise mode, and parking trend predictions.',
+        parkingDesc: 'Parking Go brings Macau bus ETA and parking availability together, with nearby search, cruise mode, and parking trend predictions.',
         pf1: 'Live car, motorcycle & EV spaces with vehicle filters',
         pf2: 'Map, list, nearby sorting and cruise mode for finding a space',
         pf3: 'Favorites, widgets, Live Activity & Dynamic Island support',
         pf4: 'Voice search plus historical and ML parking predictions',
+        busFeatureKicker: 'A CORE PARKING GO FEATURE',
+        busFeatureTitle: 'Bus ETA',
+        busFeatureDesc: 'Parking Go keeps real-time bus arrivals and parking availability in one app, so you can plan the trip before you leave.',
+        bfs1: 'Live ETA and stops-away information',
+        bfs2: 'Nearby stops, route maps and transfers',
+        bfs3: 'Favorite routes and recent searches',
+        bfs4: 'Mobile arrival alerts; iOS Live Activity and Apple Watch sync',
         badgeLine1: 'Download on the',
         badgeLine2: 'App Store',
         downloadAndroid: 'Android APK',
@@ -1240,7 +1247,7 @@
       zh: {
         title: 'Chi Hin Lio \u00B7 App \u958B\u767C\u8005',
         heroEyebrow: 'App \u958B\u767C\u8005',
-        heroSub: '\u7531\u5DF4\u58EB\u5BE6\u6642\u5230\u7AD9\u3001\u505C\u8ECA\u4F4D\u5230 API \u91D1\u9470\u7BA1\u7406\uFF0C\u7528\u5BE6\u7528 App \u89E3\u6C7A\u65E5\u5E38\u554F\u984C\u3002',
+        heroSub: '\u7528\u5BE6\u7528 App \u89E3\u6C7A\u6FB3\u9580\u65E5\u5E38\u51FA\u884C\uFF1A\u6FB3\u6CCA\u5C07\u5DF4\u58EB\u5BE6\u6642\u5230\u7AD9\u540C\u505C\u8ECA\u5834\u8ECA\u4F4D\u653E\u55BA\u540C\u4E00\u500B App\uFF0C\u53E6\u6709 API \u91D1\u9470\u7BA1\u7406\u3002',
         busTagline: '\u6FB3\u9580\u5DF4\u58EB\u5BE6\u6642\u5831\u7AD9',
         busName: '\u5DF4\u58EB ETA',
         busPlatform: 'iOS · Android',
@@ -1255,18 +1262,25 @@
         bf3: '\u6536\u85CF\u8DEF\u7DDA\uFF0C\u5FEB\u901F\u8FD4\u56DE\u6700\u8FD1\u67E5\u8A62',
         bf4: '\u624B\u6A5F\u5230\u7AD9\u901A\u77E5\uFF1BiOS \u652F\u63F4 Live Activity \u540C Apple Watch \u540C\u6B65',
         busMore: '\u67E5\u770B\u5168\u90E8\u6FB3\u6CCA\u529F\u80FD',
-        parkingTagline: '\u6FB3\u9580\u5BE6\u6642\u505C\u8ECA\u4F4D\u8CC7\u8A0A',
+        parkingTagline: '\u6FB3\u6CCA — \u5DF4\u58EB\u53CA\u505C\u8ECA\u5834\u5BE6\u6642\u8CC7\u8A0A',
         matrixTagline: '\u5B89\u5168\u7684 AI \u4F9B\u61C9\u5546 API \u91D1\u9470\u4FDD\u7BA1\u5EAB',
         mockLocation: '\u6FB3\u9580',
         mockLot: '\u6842\u6E56\u505C\u8ECA\u5834',
         mockSpots: '\u25CF 48 \u8ECA\u4F4D',
         mockAvail: '\u6709\u4F4D',
         parkingName: '\u6FB3\u6CCA',
-        parkingDesc: '\u5BE6\u6642\u67E5\u770B\u5168\u6FB3\u9580\u8ECA\u4F4D\u3001\u9644\u8FD1\u505C\u8ECA\u5834\u540C\u6CCA\u8ECA\u8DA8\u52E2\uFF0C\u4EA6\u53EF\u7528\u5DE1\u822A\u6A21\u5F0F\u4E00\u8DEF\u641E\u4F4D\u3002',
+        parkingDesc: '\u6FB3\u6CCA\u5C07\u5DF4\u58EB\u5230\u7AD9\u3001\u8ECA\u4F4D\u3001\u9644\u8FD1\u641C\u7D22\u3001\u5DE1\u822A\u6A21\u5F0F\u540C\u8ECA\u4F4D\u9810\u6E2C\u653E\u55BA\u540C\u4E00\u500B App\u3002',
         pf1: '\u79C1\u5BB6\u8ECA\u3001\u96FB\u55AE\u8ECA\u540C\u5145\u96FB\u8ECA\u4F4D\uFF0C\u6309\u8ECA\u578B\u7BE9\u9078',
         pf2: '\u5730\u5716\u3001\u5217\u8868\u3001\u9644\u8FD1\u6392\u5E8F\u540C\u5DE1\u822A\u5927\u5B57\u6A21\u5F0F',
         pf3: '\u6536\u85CF\u3001Widget\u3001Live Activity \u540C Dynamic Island',
         pf4: '\u8A9E\u97F3\u641C\u7D22\uFF0C\u6B77\u53F2\u6578\u64DA\u540C ML \u8ECA\u4F4D\u9810\u6E2C',
+        busFeatureKicker: '\u6FB3\u6CCA\u5176\u4E2D\u4E00\u9805\u6838\u5FC3\u529F\u80FD',
+        busFeatureTitle: '\u5DF4\u58EB\u5BE6\u6642\u5831\u7AD9',
+        busFeatureDesc: '\u5DF4\u58EB\u5230\u7AD9\u540C\u505C\u8ECA\u4F4D\u8CC7\u8A0A\u653E\u55BA\u540C\u4E00\u500B App\uFF0C\u51FA\u9580\u524D\u5148\u5B89\u6392\u597D\u884C\u7A0B\u3002',
+        bfs1: '\u5BE6\u6642 ETA \u53CA\u5269\u9918\u7AD9\u6578',
+        bfs2: '\u9644\u8FD1\u8ECA\u7AD9\u3001\u8DEF\u7DDA\u5730\u5716\u540C\u8F49\u4E58',
+        bfs3: '\u6536\u85CF\u8DEF\u7DDA\u540C\u6700\u8FD1\u67E5\u8A62',
+        bfs4: '\u624B\u6A5F\u5230\u7AD9\u901A\u77E5\uFF1BiOS \u652F\u63F4 Live Activity \u540C Apple Watch \u540C\u6B65',
         badgeLine1: '\u4E0B\u8F09\u81EA',
         badgeLine2: 'App Store',
         downloadAndroid: '\u4E0B\u8F09 Android APK',
