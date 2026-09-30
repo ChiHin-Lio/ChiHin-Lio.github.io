@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="澳泊 Parking Go iOS 及 Android 技術支援：停車場、巴士預測、Road Network、站對站、語音查詢及帳戶常見問題。">
+<link rel="canonical" href="https://chihin-lio.github.io/support.html">
+<title>澳泊 Parking Go — 技術支援</title>
+<style>
+  * { box-sizing: border-box; }
+  :root { color-scheme: light dark; --bg:#faf6f0; --surface:#fff; --text:#292724; --muted:#625e59; --accent:#a64f38; --line:#e8dfd6; --soft:#fbf2eb; }
+  body { margin:0; padding:32px 20px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.8; }
+  main { max-width:800px; margin:0 auto; padding:36px; background:var(--surface); border:1px solid var(--line); border-radius:24px; box-shadow:0 8px 32px #35251608; }
+  nav { display:flex; flex-wrap:wrap; gap:12px 24px; font-size:14px; }
+  a { color:var(--accent); text-underline-offset:3px; overflow-wrap:anywhere; }
+  a:focus-visible,summary:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+  h1 { font-size:clamp(27px,5vw,36px); line-height:1.3; margin:28px 0 12px; }
+  h2 { font-size:21px; margin:32px 0 12px; }
+  h3 { font-size:17px; margin:0 0 8px; }
+  p { margin:0 0 12px; }
+  .meta { color:var(--muted); font-size:13px; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+  .card { background:var(--soft); border-radius:18px; padding:20px; }
+  .button { display:inline-block; margin-top:8px; padding:10px 16px; border-radius:12px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; }
+  ul { padding-left:22px; }
+  details { border-bottom:1px solid var(--line); padding:16px 0; }
+  summary { cursor:pointer; font-weight:650; font-size:16px; }
+  details p,details ul { margin-top:12px; margin-bottom:0; color:var(--muted); }
+  .notice { margin-top:28px; padding:18px 20px; border-left:3px solid var(--accent); background:var(--soft); border-radius:0 14px 14px 0; }
+  footer { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
+  @media(max-width:600px) { body { padding:16px 12px; } main { padding:24px 20px; } .contact-grid { grid-template-columns:1fr; } }
+  @media(prefers-color-scheme:dark) { :root { --bg:#171411; --surface:#211d19; --text:#f5efe9; --muted:#c2b7ad; --accent:#f2a080; --line:#40352d; --soft:#30271f; } .button { background:#bb5737; color:#fff; } }
+</style>
+</head>
+<body>
+<main>
+<nav aria-label="網站導覽"><a href="https://chihin-lio.github.io/parking.html">澳泊主頁</a><a href="https://chihin-lio.github.io/privacy.html">私隱政策及免責聲明</a></nav>
+<header>
+<h1>澳泊 Parking Go 技術支援</h1>
+<p>停車場、巴士、輕軌及交通查詢有問題？您可以先查看下方常見問題，或直接聯絡我們。</p>
+<p class="meta">適用於 iOS 及 Android · 已更新至 2.6.8 功能說明 · 最後更新：2026 年 9 月 30 日</p>
+</header>
+<section class="contact-grid" aria-label="聯絡支援">
+<div class="card"><h3>電郵支援</h3><p>帳戶、會員、私隱或一般使用問題：</p><a href="mailto:chi.lio@icloud.com">chi.lio@icloud.com</a><br><a class="button" href="mailto:chi.lio@icloud.com?subject=Parking%20Go%20%E6%8A%80%E8%A1%93%E6%94%AF%E6%8F%B4">聯絡支援</a></div>
+<div class="card"><h3>回報問題／提出建議</h3><p>程式異常、資料顯示或功能建議可透過 GitHub 提交。</p><a class="button" href="https://github.com/ChiHin-Lio/macau-bus-data/issues">前往問題回報</a><p class="meta" style="margin-top:12px">GitHub 問題內容會公開；帳戶或付款問題請用電郵聯絡。</p></div>
+</section>
+<section aria-labelledby="report-heading">
+<h2 id="report-heading">回報時提供甚麼資料？</h2>
+<ul><li>iOS／Android、裝置型號、系統版本及 app 版本。</li><li>發生問題的頁面、操作步驟及大約時間。</li><li>相關巴士路線、方向、站名／站碼或停車場名稱。</li><li>畫面截圖及畫面上的更新時間。截圖請遮去與問題無關的個人資料。</li></ul>
+</section>
+<section aria-labelledby="faq-heading">
+<h2 id="faq-heading">常見問題</h2>
+<details open><summary>停車位或巴士資料為甚麼與現場不同？</summary><p>資料來自 DSAT 及其他交通來源，可能受來源更新頻率、網絡或快取影響。請先查看畫面上的更新時間，再重新整理；若顯示資料過期或無法提供，請以現場及官方公告為準。持續出現差異時，請提供路線／站點或停車場名稱及時間，方便我們跟進。</p></details>
+<details><summary>巴士到站時間與預計發車時間有甚麼分別？</summary><p>到站資訊描述巴士前往您所選站點的情況；預計發車時間則估算下一班車何時開出。2.6.8 加入基於歷史交通資料的發車預測。兩者都可能因交通、調度或資料缺失而改變，不代表官方保證班次。營運時間或營運狀態亦可能影響可用班次。</p></details>
+<details><summary>Road Network 顯示沒有資料，是否代表道路暢通？</summary><p>不是。交通地圖的 Road Network 圖層顯示可取得的路面情況；部分道路可能未有資料，或資料已過期。請參照畫面圖例、資料時間及官方消息，並以實際道路狀況為準。</p></details>
+<details><summary>站對站找不到路線，或轉乘結果不合適？</summary><p>請確認起終點及方向，亦可使用地圖選取位置，或改用附近巴士站。搜尋結果會受營運時間、步行距離及可用轉乘影響。若仍有問題，請提供起終點、查詢時間及截圖。適用站點會顯示「輕軌轉乘」提示，並不表示所有巴士站均可轉乘輕軌。</p></details>
+<details><summary>如何切換巴士路線、附近站點及站點地圖？</summary><p>巴士路線／附近巴士站頁可用右上角切換鍵轉換顯示方式；附近站點卡片可展開查看途經路線及到站資訊。在「站點」頁，點右上角地圖鍵即可切換地圖／列表，並查看站點位置。</p></details>
+<details><summary>語音查詢沒有反應或辨識不準確？</summary><p>iOS 及 Android 使用各自的平台語音辨識服務。請確認已授權咪高峰及相關語音權限，並在較安靜環境清楚說出路線、站點或地標。辨識服務可能需要網絡；您亦可直接輸入文字查詢。</p></details>
+<details><summary>附近站點或停車場定位不正確？</summary><p>請確認裝置定位服務已開啟，並允許澳泊在使用時取得位置。室內、隧道、弱訊號或只授權概略位置，都可能影響準確度。您可重新定位，或在地圖上自行選取起終點。</p></details>
+<details><summary>如何使用深色模式或更改導航地圖？</summary><p>在 app「設定」選擇跟隨系統、淺色或深色外觀。導航地圖選項按平台及已安裝應用程式而異：iOS 可使用 Apple Maps、Google Maps 或高德地圖；Android 可選 Google Maps 或高德地圖。外部導航由相應地圖服務提供。</p></details>
+<details><summary>Premium 沒有顯示，或如何取消訂閱？</summary><p>請先確認登入的是購買時使用的帳戶，並在支援恢復購買的平台嘗試恢復購買。如透過 Apple 訂閱，可到 iPhone「設定」→ 您的 Apple 帳戶 →「訂閱項目」，選擇澳泊後取消；詳情請參閱 <a href="https://support.apple.com/zh-hk/118428">Apple 官方說明</a>。其他付款方式請按收據所示服務管理。刪除 app 或帳戶不會自動取消平台訂閱。仍有疑問，請以電郵聯絡並提供交易日期或交易識別資料。</p></details>
+<details><summary>如何刪除帳戶或提出私隱要求？</summary><p>登入後，前往帳戶／設定中的「刪除帳號」，按畫面確認。現有刪除流程設有 14 天冷卻期，期間可登入取消刪除；後續按帳戶刪除流程處理。如未能登入或有資料查閱、更正、刪除要求，請電郵 <a href="mailto:chi.lio@icloud.com">chi.lio@icloud.com</a>。資料處理詳情見 <a href="https://chihin-lio.github.io/privacy.html">私隱政策</a>。</p></details>
+<details><summary>如何更新 Android？</summary><p>可在 app 設定查看版本提示，或從 <a href="https://github.com/HiNesslio/parkgo-android-releases/releases/latest">GitHub 最新 Android release</a> 下載 APK。安裝時保留原有 app，可延續本機資料；若遇到版本或安裝錯誤，請提供錯誤畫面及目前版本。</p><a class="button" href="https://github.com/HiNesslio/parkgo-android-releases/releases/latest/download/app-release.apk">下載最新 Android APK</a></details>
+</section>
+<aside class="notice"><p>澳泊並非 DSAT 官方應用程式。車位、交通、巴士預測及路線建議僅供參考，請以官方公告、現場情況及實際營運為準。</p></aside>
+<footer><p>澳泊 Parking Go — 澳門停車場、巴士及交通查詢</p><nav aria-label="頁尾連結"><a href="https://chihin-lio.github.io/parking.html">主頁</a><a href="https://chihin-lio.github.io/privacy.html">私隱政策</a><a href="mailto:chi.lio@icloud.com">聯絡我們</a></nav></footer>
+</main>
+</body>
+</html>
