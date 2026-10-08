@@ -56,5 +56,13 @@
   {
     "path": "assets/app-store-zh.svg",
     "source": "https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/black/zh-tw?size=250x83"
+  },
+  {
+    "path": "assets/android-apk-zh.svg",
+    "source": "Custom SVG badge based on the user-provided reference"
+  },
+  {
+    "path": "assets/android-apk-en.svg",
+    "source": "Custom SVG badge based on the user-provided reference"
   }
 ]

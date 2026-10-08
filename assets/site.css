@@ -3,3 +3,4 @@
 .hero-screens{align-items:flex-start}
 body:has(dialog[open]){overflow:hidden}
 .store-badge{display:inline-flex;align-items:center;justify-content:center;padding:12px;line-height:0;border-radius:4px;flex-shrink:0}.store-badge img{height:48px;width:auto;max-width:none}.store-badge:focus-visible{outline-offset:0}@media(max-width:760px){.store-badge img{height:44px}}
+@media(max-width:760px){.product-hero.warm .actions .text-link{flex-basis:100%;padding-top:0}.download:has(.apk-badge) .actions{flex-direction:row;gap:16px}}
