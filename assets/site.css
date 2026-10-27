@@ -4,3 +4,5 @@
 body:has(dialog[open]){overflow:hidden}
 .store-badge{display:inline-flex;align-items:center;justify-content:center;padding:12px;line-height:0;border-radius:4px;flex-shrink:0}.store-badge img{height:48px;width:auto;max-width:none}.store-badge:focus-visible{outline-offset:0}@media(max-width:760px){.store-badge img{height:44px}}
 @media(max-width:760px){.product-hero.warm .actions .text-link{flex-basis:100%;padding-top:0}.download:has(.apk-badge) .actions{flex-direction:row;gap:16px}}
+
+.parkgo-faq{max-width:900px;margin:72px auto;padding:0 30px}.parkgo-faq h2{font-size:clamp(30px,4vw,44px);margin-bottom:30px}.parkgo-faq details{border-top:1px solid #d2d2d7;padding:0}.parkgo-faq details:last-child{border-bottom:1px solid #d2d2d7}.parkgo-faq summary{cursor:pointer;font-size:19px;font-weight:600;line-height:1.5;padding:22px 4px}.parkgo-faq summary:focus-visible{outline:3px solid #1675df;outline-offset:2px}.parkgo-faq details p{font-size:17px;color:var(--muted);padding:0 4px 24px;max-width:740px}@media(max-width:760px){.parkgo-faq{margin:56px auto;padding:0 26px}.parkgo-faq summary{font-size:18px}}
