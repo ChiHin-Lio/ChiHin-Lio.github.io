@@ -26,3 +26,15 @@ OG 圖以白底、左側品牌與文案、右側真實手機畫面呈現，沿�
 澳泊產品頁增加可在原始 HTML 讀取的品牌定義、四條中英常見問題，以及與頁面一致的 MobileApplication 別名和功能資料。FAQ 使用原生 details／summary，停用 JavaScript 仍可展開。沿用現有版面和分享 metadata；保留實際功能介紹，移除「是否保證」問答及重複提示，讓內容集中於巴士、泊車與下載。用戶已確認 2.7.0 正在上架流程；本次先發佈 HTML 更新。
 
 免費 SEO／GEO／App Store ASO 文案、關鍵字和量度方案見外層項目的 marketing/search-growth-2026-10-27/。此目錄為獨立 Git repository，外層項目提交不會發佈網站；需在此 repository 發佈後再核對公開頁面。
+
+## 2026-11-05 App 介面動畫展示
+
+`parking.html` 的巴士及停車場功能區改為 React / CSS 動畫，新增 Live Activity 功能區。沿用原有主視覺、官方截圖畫廊、下載連結、常見問題及搜尋 metadata。
+
+三個場景使用 Stageshow 裝置框；樣式對照 `AppColors.swift`、`ETACardView.swift`、`RouteInlineHeader.swift`、`ParkingListView.swift` 同 `ParkGoBusLiveActivity.swift`。Live Activity 再依用戶提供的 101 路線實際截圖校準。車輛、澳巴 logo 及巴士俯視圖直接使用 App 素材；巴士地圖背景為既有 App 截圖的 CSS 裁切。展示數據固定，沒有接駁即時 API，亦不代表原生 App 錄屏。
+
+進入畫面播一次，重播按鈕可重新播放；減少動態效果時顯示完整結果。按需掛載場景，停用 JavaScript 時保留官方截圖。中英文沿用網站語言設定。
+
+可編輯原始碼在外層 workspace 的 `marketing/parkgo-stageshow-demo/native/`；執行 `npm run typecheck` 同 `npm run build:website` 重建本 repository 的 `assets/parkgo-showcase/`，包含 native 圖片，不需要改網站部署架構。此目錄內的 JS / CSS 為產生檔案。
+
+已以本機 Chrome 檢查 1440px / 390px、中英文、正常播放與重播、動態效果偏好切換、無 JavaScript 截圖及 FAQ。沒有 iOS 原生改動；動效為自檢，沒有獨立評審或真機測試。詳細證據在外層 `marketing/parkgo-stageshow-demo/evidence/`。
