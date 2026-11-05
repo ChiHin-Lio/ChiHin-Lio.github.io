@@ -38,3 +38,12 @@ OG 圖以白底、左側品牌與文案、右側真實手機畫面呈現，沿�
 可編輯原始碼在外層 workspace 的 `marketing/parkgo-stageshow-demo/native/`；執行 `npm run typecheck` 同 `npm run build:website` 重建本 repository 的 `assets/parkgo-showcase/`，包含 native 圖片，不需要改網站部署架構。此目錄內的 JS / CSS 為產生檔案。
 
 已以本機 Chrome 檢查 1440px / 390px、中英文、正常播放與重播、動態效果偏好切換、無 JavaScript 截圖及 FAQ。沒有 iOS 原生改動；動效為自檢，沒有獨立評審或真機測試。詳細證據在外層 `marketing/parkgo-stageshow-demo/evidence/`。
+
+### 2026-11-05 晚間循環更新
+
+- 巴士改為用戶最新 5 號線新福利截圖的 ETA 卡樣式。地圖以新截圖的街區裁切作底，SVG polyline 上的 App 車輛素材位置、已離開／前往站名、分鐘及站數由同一份場景資料驅動。
+- 停車場加入測量定位的手指、按壓圈與愛心回彈，透過收藏／取消收藏完成循環。
+- 新增 `#lrt-arrivals`，採用原生 LRT logo、車站圖標及雙方向到站卡，數字倒數至「即將到站」。
+- 四段場景均 loop；資料重設在更新提示及淡出期間進行。新增暫停／播放，保留重播及 reduced-motion poster。
+
+展示數據與時間均屬編排；並非串接中的即時巴士或輕軌服務。新場景來源及驗證記錄在外層 workspace `marketing/parkgo-stageshow-demo/native/`、`evidence/loops-v3/`。
